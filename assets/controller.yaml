@@ -45,6 +45,8 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: csi-driver
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${DRIVER_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
@@ -85,6 +87,8 @@ spec:
               memory: 50Mi
               cpu: 10m
         - name: csi-provisioner
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${PROVISIONER_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
@@ -114,6 +118,8 @@ spec:
           # kube-rbac-proxy for external-provisioner container.
           # Provides https proxy for http-based external-provisioner metrics.
         - name: provisioner-kube-rbac-proxy
+          securityContext:
+            readOnlyRootFilesystem: true
           args:
           - --secure-listen-address=0.0.0.0:9202
           - --upstream=http://127.0.0.1:8202/
@@ -137,6 +143,8 @@ spec:
           - mountPath: /etc/tls/private
             name: metrics-serving-cert
         - name: csi-attacher
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${ATTACHER_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
@@ -160,6 +168,8 @@ spec:
               memory: 50Mi
               cpu: 10m
         - name: attacher-kube-rbac-proxy
+          securityContext:
+            readOnlyRootFilesystem: true
           args:
           - --secure-listen-address=0.0.0.0:9203
           - --upstream=http://127.0.0.1:8203/
@@ -183,6 +193,8 @@ spec:
           - mountPath: /etc/tls/private
             name: metrics-serving-cert
         - name: csi-resizer
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${RESIZER_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
@@ -205,6 +217,8 @@ spec:
               memory: 50Mi
               cpu: 10m
         - name: resizer-kube-rbac-proxy
+          securityContext:
+            readOnlyRootFilesystem: true
           args:
           - --secure-listen-address=0.0.0.0:9204
           - --upstream=http://127.0.0.1:8204/
@@ -228,6 +242,8 @@ spec:
           - mountPath: /etc/tls/private
             name: metrics-serving-cert
         - name: csi-snapshotter
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${SNAPSHOTTER_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
@@ -251,6 +267,8 @@ spec:
               memory: 50Mi
               cpu: 10m
         - name: snapshotter-kube-rbac-proxy
+          securityContext:
+            readOnlyRootFilesystem: true
           args:
           - --secure-listen-address=0.0.0.0:9205
           - --upstream=http://127.0.0.1:8205/
@@ -274,6 +292,8 @@ spec:
           - mountPath: /etc/tls/private
             name: metrics-serving-cert
         - name: csi-liveness-probe
+          securityContext:
+            readOnlyRootFilesystem: true
           image: ${LIVENESS_PROBE_IMAGE}
           imagePullPolicy: IfNotPresent
           args:
